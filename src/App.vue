@@ -1,9 +1,6 @@
 <template>
   <div class="App_cont">
     <div>
-      <div>
-        <p v-hide="counter > 5">Test v-hide</p>
-      </div>
       <div v-if="counter < 5" style="color: red">
         <p>Vous avez clicker moins de 5 fois</p>
       </div>
@@ -14,6 +11,7 @@
     <h1>Je suis un compteur : {{ counter }}</h1>
     <button @click="increment">Incrementer le compteur</button>
     <button @click="decrementer">Decrementer</button>
+    <button @click="resetcounter">Reset</button>
   </div>
 </template>
 
@@ -28,6 +26,9 @@ const increment = () => {
 
 const decrementer = () => {
   counter.value--;
+};
+const resetcounter = () => {
+  counter.value = 0;
 };
 </script>
 
