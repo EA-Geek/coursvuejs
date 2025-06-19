@@ -1,34 +1,54 @@
 <template>
   <div class="App_cont">
-    <div>
-      <div v-if="counter < 5" style="color: red">
-        <p>Vous avez clicker moins de 5 fois</p>
-      </div>
-      <div v-else style="color: green">
-        <p>Vous avez clicker plus de 5 fois</p>
-      </div>
-    </div>
-    <h1>Je suis un compteur : {{ counter }}</h1>
-    <button @click="increment">Incrementer le compteur</button>
-    <button @click="decrementer">Decrementer</button>
-    <button @click="resetcounter">Reset</button>
+    <h1>Welcome to My Vue App</h1>
+    <h2>Movie Management</h2>
+    <p>Add Movie favorite :</p>
+    <form @submit.prevent="addMovie">
+      <input type="text" v-model="newMovie" placeholder="Enter movie name" />
+      <button type="submit">Ajouter</button>
+    </form>
+    <h2>Movie List</h2>
+    <ul>
+      <li v-for="movie in ListMovies" :key="movie">
+        {{ movie }} <button @click="deleteMovies(movie)">Supprimer</button>
+      </li>
+    </ul>
+  </div>
+  <div>
+    <button @click="sortMovies">Organiser</button>
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
 
-const counter = ref(0);
+const ListMovies = ref(["Matrix", "Lilo", "Stich", "Avatar", "Titanic"]);
 
-const increment = () => {
-  counter.value++;
+const newMovie = ref("");
+
+const addMovie = () => {
+  if (newMovie.value.trim() === "") {
+    alert("Please enter a movie name.");
+    return;
+  }
+  if (ListMovies.value.includes(newMovie.value)) {
+    alert("This movie is already in the list.");
+    return;
+  }
+  if (newMovie.value.length < 3) {
+    alert("Movie name must be at least 3 characters long.");
+    return;
+  }
+  ListMovies.value.push(newMovie.value);
+  newMovie.value = "";
 };
 
-const decrementer = () => {
-  counter.value--;
+const deleteMovies = (movie) => {
+  ListMovies.value = ListMovies.value.filter((m) => m !== movie);
 };
-const resetcounter = () => {
-  counter.value = 0;
+
+const sortMovies = () => {
+  ListMovies.value.sort((a, b) => (a > b ? 1 : -1));
 };
 </script>
 
